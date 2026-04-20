@@ -1,8 +1,8 @@
-.build
-.direnv
+#.build
+#.direnv
 .west
-modules
+#modules
 firmware
 zephyr
-zmk
-draw/base.yaml
+#zmk
+#draw/base.yaml
