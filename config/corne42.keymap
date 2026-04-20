@@ -262,84 +262,6 @@ ZMK_MACRO(lc_ls_esc_macro,
     >;
 )
 
-// Password 1 macro
-ZMK_MACRO(pw1_macro,
-    bindings = <
-    &macro_tap_time 30
-    &macro_wait_time 20
-    &macro_tap &kp N5
-    &macro_tap &kp N0
-    &macro_tap &kp N2
-    &macro_tap &kp N8
-    &macro_tap &kp RET
-    >;
-)
-
-// Password 2 macro
-ZMK_MACRO(pw2_macro,
-    bindings = <
-    &macro_tap_time 30
-    &macro_wait_time 20
-    &macro_tap &kp S
-    &macro_tap &kp W
-    &macro_tap &kp N5
-    &macro_tap &kp LS(D)
-    &macro_tap &kp I
-    &macro_tap &kp P
-    &macro_tap &kp LS(N6)
-    &macro_tap &kp F
-    &macro_tap &kp I
-    &macro_tap &kp F
-    &macro_tap &kp RET
-    >;
-)
-
-// Email macro
-ZMK_MACRO(mail_macro,
-    bindings = <
-    &macro_wait_time 40
-    &macro_tap_time 30
-    &kp T &kp E &kp D &kp J &kp O &kp S &kp T
-    &kp RA(Q)
-    &kp G &kp M &kp A &kp I &kp L
-    &kp DOT
-    &kp C &kp O &kp M
-    >;
-)
-
-// Phone macro
-ZMK_MACRO(phone_macro,
-    bindings = <
-    &macro_wait_time 40
-    &macro_tap_time 30
-    &kp N0 &kp N7 &kp N9 &kp N7 &kp N0
-    &kp N6 &kp N3 &kp N8 &kp N6 &kp N6
-    >;
-)
-
-// Address macro
-ZMK_MACRO(addr_macro,
-    bindings = <
-    &macro_wait_time 40
-    &macro_tap_time 30
-    // Im
-    &kp LS(I) &kp M &kp SPACE
-    // Sidefädeli
-    &kp LS(S) &kp I &kp D &kp E &kp F
-    &kp SQT   // ä
-    &kp D &kp E &kp L &kp I &kp SPACE
-    // 8,
-    &kp N8 &kp COMMA &kp SPACE
-    // 8803,
-    &kp N8 &kp N8 &kp N0 &kp N3
-    &kp COMMA &kp SPACE
-    // Rüschlikon
-    &kp LS(R)
-    &kp LBKT  // ü
-    &kp S &kp C &kp H &kp L &kp I &kp K &kp O &kp N
-    >;
-)
-
 // GRAVE ` macro
 ZMK_MACRO(grave_macro,
     bindings
@@ -572,9 +494,9 @@ ZMK_BASE_LAYER(SYS,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
     &to DEF       &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4,     XXX           &kp C_BRI_DN  &kp C_BRI_UP  XXX           XXX           XXX         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    ___           &pw1_macro    &pw2_macro    XXX           XXX           &bt BT_CLR  ,     &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP  &kp C_PREV    &kp C_NEXT    &kp C_PP    ,
+    ___           ___           ___           ___           XXX           XXX         ,     &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP  &kp C_PREV    &kp C_NEXT    &kp C_PP    ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    ___           &mail_macro   &phone_macro  &addr_macro   XXX           XXX         ,     XXX           XXX           XXX           XXX           XXX           ___         ,
+    ___           ___           ___           ___           ___           ___         ,     XXX           XXX           XXX           XXX           XXX           ___         ,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
                                               ___           ___           ___         ,     ___           ___           ___   
 //                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
