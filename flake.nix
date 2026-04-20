@@ -18,7 +18,21 @@
   in {
     devShells = forAllSystems (
       system: let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (final: prev: {
+              python3 = prev.python3.override {
+                packageOverrides = pfinal: pprev: {
+                  spsdk-mcu-link = pprev.spsdk-mcu-link.overridePythonAttrs (old: {
+                    pythonRelaxDeps = (old.pythonRelaxDeps or []) ++ [ "hidapi" ];
+                  });
+                };
+              };
+              python3Packages = final.python3.pkgs;
+            })
+          ];
+        };
         zephyr = zephyr-nix.packages.${system};
         keymap_drawer = pkgs.python3Packages.callPackage ./nix/keymap-drawer.nix {};
       in {
