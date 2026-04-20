@@ -12,4 +12,9 @@ jobs:
     with:
       # Set to 'gnuarmemb' 'zephyr' or 'zephyr-full' (from fastest to
       # most compatible). ZMK Studio requires 'zephyr-full'.
-      toolchain: zephyr-full
+      # NOTE: temporarily pinned to 'zephyr' because the 'zephyr-full'
+      # Python env in urob/zmk-actions@v10.0.0 currently fails to build
+      # due to a spsdk-mcu-link / hidapi version mismatch in the pinned
+      # nixpkgs. Revert to 'zephyr-full' once the upstream flake is
+      # updated.
+      toolchain: zephyr
