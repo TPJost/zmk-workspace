@@ -1,0 +1,581 @@
+/* Copyright (c) 2020 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Credits:
+ * - Adapted from https://github.com/urob/zmk-config/blob/2010126caab30e020d9ef802bd5964054b284320/config/base.keymap
+ * 
+ */
+
+#include <behaviors.dtsi>	
+#include <dt-bindings/zmk/keys.h>	
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/modifiers.h>
+#include "helper.h"
+
+// Urob's shared config
+// The macros used throughout this keymap (ZMK_HOLD_TAP, ZMK_MACRO, ZMK_COMBO,
+// ZMK_LAYER, etc.) are defined in: config/helper.h
+// Key position labels (LT0, LM1, RH0, etc.) are in: include/zmk-helpers/key-labels/36.h
+// Unicode character definitions are in: include/zmk-helpers/unicode-chars/
+
+/* Layer indices */
+
+#define DEF 0
+#define SYM 1
+#define NUM 2
+#define FCT 3
+#define NAV 4
+#define PTR 5
+#define SYS 6
+
+#include "mouse.dtsi"
+// #include "combos.dtsi"
+// #include "leader.dtsi"
+
+/* Behavior aliases */
+
+#define XXX 			&none
+#define ___				&trans
+#define LS_F_HT        	&lshift_f_ht LSHIFT F
+#define RS_J_HT        	&rshift_j_ht RSHIFT J
+#define NUM_HT        	&num_ht NUM NUM
+#define NAV_HT          &nav_ht NAV NAV
+#define PTR_HT          &ptr_ht PTR PTR
+#define SYS_HT          &sys_ht SYS SYS
+#define FCT_ESC_HT      &fct_esc_ht FCT ESC
+#define ALT_SYM_OSL     &alt_sym_osl LALT SYM
+#define ALT_GUI_HT      &alt_gui_ht LALT LGUI
+#define SYM_LS_OSM      &sym_lshift_osm SYM LSHIFT
+#define NUM_RS_OSM      &num_rshift_osm NUM RSHIFT
+#define OSM_LS_STRICT   &osm_ls_strict LSHIFT
+#define OSM_RS_STRICT   &osm_rs_strict RSHIFT
+
+/* Behaviors */
+
+// Tap: F | Hold: Left Shift.
+ZMK_HOLD_TAP(lshift_f_ht,
+    flavor = "balanced";
+    tapping-term-ms = <180>;
+    require-prior-idle-ms = <125>;
+    quick-tap-ms = <0>;
+    retro-tap;
+    bindings = <&kp>, <&kp>;
+)
+
+// Tap: J | Hold: Right Shift.
+ZMK_HOLD_TAP(rshift_j_ht,
+    flavor = "balanced";
+    tapping-term-ms = <180>;
+    require-prior-idle-ms = <125>;
+    quick-tap-ms = <0>;
+    retro-tap;
+    bindings = <&kp>, <&kp>;
+)
+
+// Strict one-shot left shift
+ZMK_STICKY_KEY(osm_ls_strict,
+    bindings = <&kp>;
+    release-after-ms = <700>;
+    quick-release;
+    /delete-property/ ignore-modifiers;
+)
+
+// Strict one-shot right shift
+ZMK_STICKY_KEY(osm_rs_strict,
+    bindings = <&kp>;
+    release-after-ms = <700>;
+    quick-release;
+    /delete-property/ ignore-modifiers;
+)
+
+// SYM / SHIFT one-shot-hold-tap
+ZMK_HOLD_TAP(sym_lshift_osm,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&osm_ls_strict>;
+)
+
+// NUM / SHIFT one-shot-hold-tap
+ZMK_HOLD_TAP(num_rshift_osm,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&osm_rs_strict>;
+)
+
+// Tap: ESC | Hold: momentary FCT layer.
+ZMK_HOLD_TAP(fct_esc_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&kp>;
+)
+
+// NUM hold-tap
+ZMK_HOLD_TAP(num_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&sl>;
+)
+
+// NAV hold-tap
+ZMK_HOLD_TAP(nav_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&sl>;
+)
+
+// PTR hold-tap
+ZMK_HOLD_TAP(ptr_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&sl>;
+)
+
+// SYS hold-tap
+ZMK_HOLD_TAP(sys_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <125>;
+    bindings = <&mo>, <&sl>;
+)
+
+// LALT SYM hold-tap
+ZMK_HOLD_TAP(alt_sym_osl,
+    label = "ALT_OSL_SYM";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+    flavor = "balanced";
+    bindings = <&kp>, <&sl>;
+)
+
+// LALT / LGUI hold-tap
+ZMK_HOLD_TAP(alt_gui_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+    bindings = <&kp>, <&kp>;
+)
+
+// Unused: NUM tap dance.
+ZMK_TAP_DANCE(num_td,
+    tapping-term-ms = <200>;
+    bindings = <&num_ht NUM NUM>, <&tog NUM>;
+)
+
+// Unused: NAV tap dance.
+ZMK_TAP_DANCE(nav_td,
+    tapping-term-ms = <200>;
+    bindings = <&nav_ht NAV NAV>, <&tog NAV>;
+)
+
+// Unused: generic one-shot hold-tap helper.
+ZMK_HOLD_TAP(os_ht,
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    flavor = "balanced";
+    bindings = <&kp>, <&sk>;
+)
+
+// Generic hold-tap
+ZMK_HOLD_TAP(ht,
+    flavor = "tap-preferred";
+    require-prior-idle-ms = <150>;
+    tapping-term-ms = <200>;
+    quick-tap-ms = <180>;
+    bindings = <&kp>, <&kp>;
+)
+
+// CTRL + SHIFT + ESC hold-tap
+ZMK_HOLD_TAP(lc_ls_esc_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <150>;
+    bindings = <&lc_ls_esc_macro &kp>;
+)
+
+// < / ` hold-tap
+ZMK_HOLD_TAP(grave_lt_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    bindings = <&grave_macro>, <&less_than_macro>;
+)
+
+// > / ´ hold-tap
+ZMK_HOLD_TAP(acute_gt_ht,
+    flavor = "balanced";
+    tapping-term-ms = <200>;
+    bindings = <&acute_macro>, <&greater_than_macro>;
+)
+
+// = / ~ hold-tap
+ZMK_HOLD_TAP(tilde_equal_ht,
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    bindings = <&tilde_macro>, <&equal_macro>;
+)
+
+// ) / ^ hold-tap
+ZMK_HOLD_TAP(caret_rpar_ht,
+    flavor = "tap-preferred";
+    tapping-term-ms = <200>;
+    bindings = <&caret_macro>, <&rpar_macro>;
+)
+
+/* Macros */
+
+// Alt + F4 macro
+ZMK_MACRO(la_f4_macro,
+    bindings = <
+    &macro_press   &kp LALT
+    &kp            F4
+    &macro_release &kp LALT
+    >;
+)
+
+// Ctrl + Alt + Del macro
+ZMK_MACRO(lc_la_del_macro,
+    bindings = <
+    &macro_press &kp LCTRL
+    &macro_press &kp LALT
+    &kp DEL
+    &macro_release &kp LALT
+    &macro_release &kp LCTRL
+    >;
+)
+
+// Ctrl + Shift + Esc macro
+ZMK_MACRO(lc_ls_esc_macro,
+    bindings = <
+    &macro_press   &kp LCTRL
+    &macro_press   &kp LSHFT
+    &kp ESC
+    &macro_release &kp LSHFT
+    &macro_release &kp LCTRL
+    >;
+)
+
+// Password 1 macro
+ZMK_MACRO(pw1_macro,
+    bindings = <
+    &macro_tap_time 30
+    &macro_wait_time 20
+    &macro_tap &kp N5
+    &macro_tap &kp N0
+    &macro_tap &kp N2
+    &macro_tap &kp N8
+    &macro_tap &kp RET
+    >;
+)
+
+// Password 2 macro
+ZMK_MACRO(pw2_macro,
+    bindings = <
+    &macro_tap_time 30
+    &macro_wait_time 20
+    &macro_tap &kp S
+    &macro_tap &kp W
+    &macro_tap &kp N5
+    &macro_tap &kp LS(D)
+    &macro_tap &kp I
+    &macro_tap &kp P
+    &macro_tap &kp LS(N6)
+    &macro_tap &kp F
+    &macro_tap &kp I
+    &macro_tap &kp F
+    &macro_tap &kp RET
+    >;
+)
+
+// Email macro
+ZMK_MACRO(mail_macro,
+    bindings = <
+    &macro_wait_time 40
+    &macro_tap_time 30
+    &kp T &kp E &kp D &kp J &kp O &kp S &kp T
+    &kp RA(Q)
+    &kp G &kp M &kp A &kp I &kp L
+    &kp DOT
+    &kp C &kp O &kp M
+    >;
+)
+
+// Phone macro
+ZMK_MACRO(phone_macro,
+    bindings = <
+    &macro_wait_time 40
+    &macro_tap_time 30
+    &kp N0 &kp N7 &kp N9 &kp N7 &kp N0
+    &kp N6 &kp N3 &kp N8 &kp N6 &kp N6
+    >;
+)
+
+// Address macro
+ZMK_MACRO(addr_macro,
+    bindings = <
+    &macro_wait_time 40
+    &macro_tap_time 30
+    // Im
+    &kp LS(I) &kp M &kp SPACE
+    // Sidefädeli
+    &kp LS(S) &kp I &kp D &kp E &kp F
+    &kp SQT   // ä
+    &kp D &kp E &kp L &kp I &kp SPACE
+    // 8,
+    &kp N8 &kp COMMA &kp SPACE
+    // 8803,
+    &kp N8 &kp N8 &kp N0 &kp N3
+    &kp COMMA &kp SPACE
+    // Rüschlikon
+    &kp LS(R)
+    &kp LBKT  // ü
+    &kp S &kp C &kp H &kp L &kp I &kp K &kp O &kp N
+    >;
+)
+
+// GRAVE ` macro
+ZMK_MACRO(grave_macro,
+    bindings
+    = <&macro_wait_time 20>
+    , <&macro_tap_time 30>
+    , <&macro_tap &kp LS(EQUAL)>
+    , <&macro_tap &kp SPACE>
+    ;
+)
+
+// ACUTE ´ macro
+ZMK_MACRO(acute_macro,
+    bindings
+    = <&macro_wait_time 20>
+    , <&macro_tap_time 30>
+    , <&macro_tap &kp RA(MINUS)>
+    , <&macro_tap &kp SPACE>
+    ;
+)
+
+// CARET ^ macro
+ZMK_MACRO(caret_macro,
+    bindings
+    = <&macro_wait_time 20>
+    , <&macro_tap_time 30>
+    , <&macro_tap &kp EQUAL>
+    , <&macro_tap &kp SPACE>
+    ;
+)
+
+// TILDE ~ macro
+ZMK_MACRO(tilde_macro,
+    bindings
+    = <&macro_wait_time 20>
+    , <&macro_tap_time 30>
+    , <&macro_tap &kp RA(EQUAL)>
+    , <&macro_tap &kp SPACE>
+    ;
+)
+
+// < macro
+ZMK_MACRO(less_than_macro,
+    bindings = <
+    &macro_wait_time 20
+    &macro_tap_time 30
+    &macro_tap &kp NUBS
+    >;
+)
+
+// > macro
+ZMK_MACRO(greater_than_macro,
+    bindings = <
+    &macro_wait_time 20
+    &macro_tap_time 30
+    &macro_tap &kp LS(NUBS)
+    >;
+)
+
+// = macro
+ZMK_MACRO(equal_macro,
+    bindings = <
+    &macro_wait_time 20
+    &macro_tap_time 30
+    &macro_tap &kp LS(N0)
+    >;
+)
+// ) macro
+ZMK_MACRO(rpar_macro,
+    bindings = <
+    &macro_wait_time 20
+    &macro_tap_time 30
+    &macro_tap &kp LS(N9)
+    >;
+)
+
+// • macro
+ZMK_MACRO(bullet_macro,
+    wait-ms = <40>;
+    tap-ms = <40>;
+    bindings = <
+    &macro_press   &kp LALT
+    &macro_tap     &kp KP_N0 &kp KP_N1 &kp KP_N4 &kp KP_N9
+    &macro_release &kp LALT
+    >;
+)
+
+// En dash –
+ZMK_MACRO(endash_macro,
+    wait-ms = <40>;
+    tap-ms = <40>;
+    bindings = <
+    &macro_press   &kp LALT
+    &macro_tap     &kp KP_N0 &kp KP_N1 &kp KP_N5 &kp KP_N0
+    &macro_release &kp LALT
+    >;
+)
+
+// Em dash —
+ZMK_MACRO(emdash_macro,
+    wait-ms = <40>;
+    tap-ms = <40>;
+    bindings = <
+    &macro_press   &kp LALT
+    &macro_tap     &kp KP_N0 &kp KP_N1 &kp KP_N5 &kp KP_N1
+    &macro_release &kp LALT
+    >;
+)
+
+// Paragraph sign ¶
+ZMK_MACRO(paragraph_macro,
+    wait-ms = <40>;
+    tap-ms = <40>;
+    bindings = <
+    &macro_press   &kp LALT
+    &macro_tap     &kp KP_N0 &kp KP_N1 &kp KP_N8 &kp KP_N2
+    &macro_release &kp LALT
+    >;
+)
+
+/* Combos */
+
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+//│ 0           │ 1           │ 2           │ 3           │ 4           │ 5           │   │ 6           │ 7           │ 8           │ 9           │ 10          │ 11          │
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+//│ 12          │ 13          │ 14          │ 15          │ 16          │ 17          │   │ 18          │ 19          │ 20          │ 21          │ 22          │ 23          │
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+//│ 24          │ 25          │ 26          │ 27          │ 28          │ 29          │   │ 30          │ 31          │ 32          │ 33          │ 34          │ 35          │
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+//                                          │ 36          │ 37          │ 38          │   │ 39          │ 40          │ 41          │
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+ZMK_COMBO(enter_df, &kp RET, 15 16, DEF SYM NUM, 50, 180) // D + F
+ZMK_COMBO(enter_jk, &kp RET, 19 20, DEF SYM NUM, 50, 180) // J + K
+ZMK_COMBO(tab_sd, &kp TAB, 14 15, DEF SYM NUM, 50, 190) // S + D
+ZMK_COMBO(tab_kl, &kp TAB, 21 22, DEF SYM NUM, 50, 190) // K + L
+ZMK_COMBO(bspc_er, &kp BSPC, 3 4, DEF SYM NUM, 50, 200) // E + R
+ZMK_COMBO(bspc_ui, &kp BSPC, 7 8, DEF SYM NUM, 50, 180) // U + I
+ZMK_COMBO(del_we, &kp DEL, 2 3, DEF SYM NUM, 50, 270) // W + E
+ZMK_COMBO(del_io, &kp DEL, 8 9, DEF SYM NUM, 50, 240) // I + O
+ZMK_COMBO(caps_word_wr, &caps_word, 2 4, DEF, 50, 220) // W + R
+ZMK_COMBO(capslock_xv, &kp CAPSLOCK, 26 28, DEF, 50, 320) // X + V
+ZMK_COMBO(esc_fg, &kp ESC, 16 17, DEF SYM NUM NAV PTR, 50, 260)
+ZMK_COMBO(esc_hj, &kp ESC, 18 19, DEF SYM NUM, 50, 260)
+ZMK_COMBO(backslash_comma_dot, &kp RA(NUBS), 32 33, DEF SYM NUM, 50, 200)
+ZMK_COMBO(win_vb, &kp LGUI, 28 29, DEF SYM NUM, 50, 800)
+ZMK_COMBO(win_hj, &kp RGUI, 30 31, DEF SYM NUM, 50, 800)
+ZMK_COMBO(ctrl_alt_del_un, &lc_la_del_macro, 6 30, DEF, 50, 500)
+ZMK_COMBO(ctrl_shift_esc_tb, &lc_ls_esc_ht 0 ESC, 5 29, DEF, 50, 500)
+
+/* Keymap */
+
+#ifndef ZMK_BASE_LAYER
+    // Split layer bindings into left/right row args to allow comma-separated formatting.
+    #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH) \
+        ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
+#endif
+
+ZMK_BASE_LAYER(DEF,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    FCT_ESC_HT    &kp Q         &kp W         &kp E         &kp R         &kp T       ,     &kp Y         &kp U         &kp I         &kp O         &kp P         &kp LBKT    ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    &kp TAB       &kp A         &kp S         &kp D         LS_F_HT       &kp G       ,     &kp H         RS_J_HT       &kp K         &kp L         &kp SEMI      &kp SQT     ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ALT_GUI_HT    &kp Z         &kp X         &kp C         &kp V         &kp B       ,     &kp N         &kp M         &ht LS(COMMA) COMMA &ht LS(DOT) DOT &ht LS(FSLH) FSLH &kp RALT,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              &kp LCTRL     SYM_LS_OSM    NAV_HT      ,     &kp SPACE     NUM_RS_OSM    ALT_SYM_OSL
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(SYM,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       &ht RA(N7) LS(N1) &ht RA(N2) LS(N2) &ht RA(N3) LS(N3) &ht RA(E) LS(GRAVE) &ht GRAVE LS(N5) ,   &ht RA(N6) LS(N6) &kp LBKT  &ht LS(BSLH) LS(N8) &caret_rpar_ht 0 0 &kp LS(N0)    &ht RBRC LS(MINUS)  ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           &kp RA(N2)    &kp RA(N3)    &kp RA(N7)    &kp RA(NUBS)  &kp LS(FSLH),     &grave_macro  &kp RA(LBKT)  &kp RA(QUOT)  &kp RA(BSLH)  &kp RA(N9)    &tilde_macro,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           XXX           XXX           XXX           XXX           XXX         ,     XXX           &grave_lt_ht 0 0 &ht RA(QUOT) RA(LBKT) &ht RA(BSLH) RA(RBKT) &acute_gt_ht 0 0  ___    ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___           ___           ___         ,     ___           ___           ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(NUM,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       XXX           &kp BSPC      &kp DEL       XXX           XXX         ,     &kp DOT       &kp N7        &kp N8        &kp N9        &kp LS(N7)    &kp BSPC    ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           &kp LS(N1)    &kp FSLH      &kp LS(N3)    &kp LS(N7)    &kp LS(N0)  ,     &kp COMMA     &kp N4        &kp N5        &kp N6        &kp LS(N1)    &kp FSLH    ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           XXX           XXX           XXX           &kp LS(N5)    XXX         ,     &kp N0        &kp N1        &kp N2        &kp N3        &kp LS(N0)    ___         ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___           ___           ___         ,     ___           ___           ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(FCT,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       &kp F1        &kp F2        &kp F3        &kp F4        &kp F5      ,     &kp F6        &kp F7        &kp F8        &kp F9        &kp F10       &kp F11     ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           ___           &kp LG(LEFT)  &kp LG(UP)    &kp LG(DOWN)  &kp LG(RIGHT),    &kp LG(LEFT)  &kp LG(DOWN)  &kp LG(UP)    &kp LG(RIGHT) ___           &kp F12     ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    &la_f4_macro  &kp LC(W)     ___           ___           ___           ___         ,     ___           ___           ___           ___           ___           ___         ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___            ___           ___         ,     ___           ___           ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(NAV,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       ___           &kp END       &kp PGUP      &kp PGDN      &kp HOME    ,     &kp HOME      &kp PGDN      &kp PGUP      &kp END       ___           ___         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           ___           &kp LEFT      &kp UP        &kp DOWN      &kp RIGHT   ,     &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT     ___           ___         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           ___           &kp LC(LEFT)  &kp LC(UP)    &kp LC(DOWN)  &kp LC(RIGHT),    &kp LC(LEFT)  &kp LC(DOWN)  &kp LC(UP)    &kp LC(RIGHT) ___           ___         ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___           ___           ___         ,     ___           PTR_HT        ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(PTR,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       ___           &mkp MB5      &mkp RCLK     &mkp LCLK     &mkp MB4    ,     &mkp MB4      &mkp LCLK     &mkp RCLK     &mkp MB5      ___           ___         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           ___           &mmv MOVE_LEFT &mmv MOVE_UP &mmv MOVE_DOWN &mmv MOVE_RIGHT, &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT ___        ___         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           ___           &msc SCRL_LEFT &msc SCRL_UP &msc SCRL_DOWN &msc SCRL_RIGHT,   &msc SCRL_LEFT   &msc SCRL_DOWN &msc SCRL_UP &msc SCRL_RIGHT ___    ___         ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___           SYS_HT        ___         ,     ___           ___           ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(SYS,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    &to DEF       &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4,     XXX           &kp C_BRI_DN  &kp C_BRI_UP  XXX           XXX           XXX         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           &pw1_macro    &pw2_macro    XXX           XXX           &bt BT_CLR  ,     &kp C_MUTE    &kp C_VOL_DN  &kp C_VOL_UP  &kp C_PREV    &kp C_NEXT    &kp C_PP    ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    ___           &mail_macro   &phone_macro  &addr_macro   XXX           XXX         ,     XXX           XXX           XXX           XXX           XXX           ___         ,
+//╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
+                                              ___           ___           ___         ,     ___           ___           ___   
+//                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
+)
+
+/* vim: set ft=c tw=146: */
