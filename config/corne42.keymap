@@ -13,10 +13,7 @@
 #include <dt-bindings/zmk/modifiers.h>
 #include "helper.h"
 
-// Urob's shared config
-// The macros used throughout this keymap (ZMK_HOLD_TAP, ZMK_MACRO, ZMK_COMBO,
-// ZMK_LAYER, etc.) are defined in: config/helper.h
-// Key position labels (LT0, LM1, RH0, etc.) are in: include/zmk-helpers/key-labels/36.h
+#include "/zmk-helpers/key-labels/42.h //
 // Unicode character definitions are in: include/zmk-helpers/unicode-chars/
 
 /* Layer indices */
