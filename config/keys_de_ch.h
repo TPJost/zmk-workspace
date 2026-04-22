@@ -245,17 +245,17 @@
 #define DE_CH_GREATER_THAN LS(NUBS)
 
 /*
- * Internal | US (<) | de_CH (;) | Unicode (U+003B)
+ * Internal | US (,) | de_CH (;) | Unicode (U+003B)
  */
 #define DE_CH_SEMICOLON LS(COMMA)
 
 /*
- * Internal | US (>) | de_CH (:) | Unicode (U+003A)
+ * Internal | US (.) | de_CH (:) | Unicode (U+003A)
  */
 #define DE_CH_COLON LS(DOT)
 
 /*
- * Internal | US (?) | de_CH (_) | Unicode (U+005F)
+ * Internal | US (_) | de_CH (_) | Unicode (U+005F)
  */
 #define DE_CH_UNDERSCORE LS(FSLH)
 
@@ -344,3 +344,8 @@
  * - ´ : &kp DE_CH_DEAD_ACUTE,      &kp SPACE
  * - ¨ : &kp DE_CH_DEAD_DIAERESIS,  &kp SPACE
  */
+
+/*
+ * Internal | US (.) | de_CH (.) | Unicode (U+002E)
+ */
+#define DE_CH_DOT DOT
