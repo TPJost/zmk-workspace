@@ -56,16 +56,12 @@
 /* ZMK_LAYER */
 
 #define ZMK_LAYER(...) CONCAT(ZMK_LAYER_, VARGS(__VA_ARGS__))(__VA_ARGS__)
-// Note: `display-name` uses `#_name` directly (rather than forwarding to
-// ZMK_HELPER_STRINGIFY) so that layer-name tokens which are also `#define`d
-// as integer indices (e.g. `#define DEF 0`) are stringified literally as
-// `"DEF"` instead of being expanded to `"0"` before stringification.
 #define ZMK_LAYER_2(_name, layout) \
     / { \
         keymap { \
             compatible = "zmk,keymap"; \
             layer_ ## _name { \
-                display-name = #_name; \
+                display-name = ZMK_HELPER_STRINGIFY(_name); \
                 bindings = <layout>; \
             }; \
         }; \
@@ -75,7 +71,7 @@
         keymap { \
             compatible = "zmk,keymap"; \
             layer_ ## _name { \
-                display-name = #_name; \
+                display-name = ZMK_HELPER_STRINGIFY(_name); \
                 bindings = <layout>; \
                 sensor-bindings = <sensors>; \
             }; \
