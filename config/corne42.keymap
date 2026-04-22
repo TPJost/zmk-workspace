@@ -451,18 +451,19 @@ ZMK_CONDITIONAL_LAYER(tri_sys, NUM NAV, SYS)
 // Override ZMK_BASE_LAYER to emit the devicetree directly. We do this so that
 // `display-name` is stringified from the ORIGINAL token (`DEF`, `SYM`, ...),
 // not from the integer index those tokens are `#define`d to. If we delegated
-// to ZMK_LAYER(name, ...) the argument would be expanded (DEF -> 0) before
+// to `ZMK_LAYER(name, ...)` the argument would be expanded (DEF -> 0) before
 // reaching the inner macro that applies `#`, producing `display-name = "0"`
 // and the OLED would show "layer 0, layer 1, ..." instead of "DEF, SYM, ...".
-// NOTE: the parameter is named `_n` (not `name`) because `name` would collide
-// with the `name` token inside the `display-name` property identifier during
-// macro expansion.
-#define ZMK_BASE_LAYER(_n, LT, RT, LM, RM, LB, RB, LH, RH) \
+//
+// The parameter is named `_name` (leading underscore) rather than `name` so
+// it does not collide with the bare `name` token inside the devicetree
+// property identifier `display-name` during macro expansion.
+#define ZMK_BASE_LAYER(_name, LT, RT, LM, RM, LB, RB, LH, RH) \
     / { \
         keymap { \
             compatible = "zmk,keymap"; \
-            layer_ ## _n { \
-                display-name = #_n; \
+            layer_ ## _name { \
+                display-name = #_name; \
                 bindings = <LT RT LM RM LB RB LH RH>; \
             }; \
         }; \
