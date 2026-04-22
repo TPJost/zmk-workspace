@@ -6,6 +6,31 @@
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
+// Layer indexes — must stay in sync with corne.keymap.
+// Defined defensively here in case this file is included before the keymap's
+// own #defines (as is the case in corne.keymap today).
+#ifndef DEF
+#define DEF 0
+#endif
+#ifndef SYM
+#define SYM 1
+#endif
+#ifndef NUM
+#define NUM 2
+#endif
+#ifndef NAV
+#define NAV 3
+#endif
+#ifndef FCT
+#define FCT 4
+#endif
+#ifndef PTR
+#define PTR 5
+#endif
+#ifndef SYS
+#define SYS 6
+#endif
+
 // Based on @caksoylar's config, defaults in comments
 &mmv {
   acceleration-exponent = <1>;          // 1
@@ -25,7 +50,7 @@
     input-processors = <&zip_xy_scaler 3 1>;
   };
   precision {
-    layers = <FN>;
+    layers = <FCT>;
     input-processors = <&zip_xy_scaler 1 2>;
   };
 };
@@ -46,7 +71,7 @@
     input-processors = <&zip_scroll_scaler 2 1>;
   };
   precision {
-    layers = <FN>;
+    layers = <FCT>;
     input-processors = <&zip_scroll_scaler 1 2>;
   };
 };
