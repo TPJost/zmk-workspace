@@ -9,7 +9,7 @@
 #include <behaviors.dtsi>
 //#include <behaviors/num_word.dtsi> // Requires zmk-auto-layer module.
 //#include <behaviors/unicode.dtsi> // Requires zmk-unicode module.
-#include "helper.h 
+#include "helper.h"
 #include "keys_de_ch.h"    // Swiss-german
 #ifdef CONFIG_WIRELESS
   #include <dt-bindings/zmk/bt.h>
@@ -431,9 +431,9 @@ ZMK_COMBO(ptr_toggle, &tog PTR, 9 10, DEF PTR, 50, 300)
  * indices of every "if" layer. See the #defines at the top of this
  * file: DEF < SYM < NUM < NAV < FCT < PTR < SYS.
  */
-ZMK_CONDITIONAL_LAYER(SYM NUM, PTR)
-ZMK_CONDITIONAL_LAYER(SYM NAV, FCT)
-ZMK_CONDITIONAL_LAYER(NUM NAV, SYS)
+ZMK_CONDITIONAL_LAYER(tri_ptr, SYM NUM, PTR)
+ZMK_CONDITIONAL_LAYER(tri_fct, SYM NAV, FCT)
+ZMK_CONDITIONAL_LAYER(tri_sys, NUM NAV, SYS)
 
 /* Keymap */
 
