@@ -384,7 +384,18 @@ ZMK_MACRO(paragraph_macro,
     >;
 )
 
-/* Combos */
+/* Combos
+ *
+ * NOTE on `require-prior-idle-ms` (6th arg): urob's zmk-helpers changed its
+ * default to 0 (disabled). We set explicit values per combo below. Horizontal
+ * combos use short timeouts (~50 ms) and moderate idle (180-270 ms) to avoid
+ * mid-word false triggers; system/macro combos (win_vb, win_hj, ctrl_alt_del,
+ * ctrl_shift_esc) use long idle (500-800 ms) intentionally.
+ *
+ * Combos that share key positions with the NUM layer's numpad MUST NOT be
+ * active on NUM, otherwise pressing e.g. N7+N8 (pos 2+3) fires `del_we`
+ * instead of producing digits.
+ */
 
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 //│ 0           │ 1           │ 2           │ 3           │ 4           │ 5           │   │ 6           │ 7           │ 8           │ 9           │ 10          │ 11          │
@@ -395,13 +406,13 @@ ZMK_MACRO(paragraph_macro,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┤─────────────┤   |─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
 //                                          │ 36          │ 37          │ 38          │   │ 39          │ 40          │ 41          │
 //                                          ╰─────────────┴─────────────┴─────────────╯   ╰─────────────┴─────────────┴─────────────╯
-ZMK_COMBO(enter_df, &kp RET, 15 16, DEF SYM NUM, 50, 180) // D + F
+ZMK_COMBO(enter_df, &kp RET, 15 16, DEF SYM, 50, 180) // D + F (disabled on NUM: would shadow N5+N6)
 ZMK_COMBO(enter_jk, &kp RET, 19 20, DEF SYM NUM, 50, 180) // J + K
-ZMK_COMBO(tab_sd, &kp TAB, 14 15, DEF SYM NUM, 50, 190) // S + D
+ZMK_COMBO(tab_sd, &kp TAB, 14 15, DEF SYM, 50, 190) // S + D (disabled on NUM: would shadow N4+N5)
 ZMK_COMBO(tab_kl, &kp TAB, 21 22, DEF SYM NUM, 50, 190) // K + L
-ZMK_COMBO(bspc_er, &kp BSPC, 3 4, DEF SYM NUM, 50, 200) // E + R
+ZMK_COMBO(bspc_er, &kp BSPC, 3 4, DEF SYM, 50, 200) // E + R (disabled on NUM: would shadow N8+N9)
 ZMK_COMBO(bspc_ui, &kp BSPC, 7 8, DEF SYM NUM, 50, 180) // U + I
-ZMK_COMBO(del_we, &kp DEL, 2 3, DEF SYM NUM, 50, 270) // W + E
+ZMK_COMBO(del_we, &kp DEL, 2 3, DEF SYM, 50, 270) // W + E (disabled on NUM: would shadow N7+N8)
 ZMK_COMBO(del_io, &kp DEL, 8 9, DEF SYM NUM, 50, 240) // I + O
 ZMK_COMBO(caps_word_wr, &caps_word, 2 4, DEF, 50, 220) // W + R
 ZMK_COMBO(capslock_xv, &kp CAPSLOCK, 26 28, DEF, 50, 320) // X + V
